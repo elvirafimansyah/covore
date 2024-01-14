@@ -1,10 +1,11 @@
-import FirstSection from "./section-1/page";
+import GlobalCases from "./globalcases/page";
+import HomePage from "./homepage/page";
 
 export default function Home() {
   return (
-    <div>
-      <FirstSection />
-      
-    </div>
+    <>
+      <HomePage />
+      <GlobalCases />
+    </>
   )
 }
