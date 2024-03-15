@@ -12,7 +12,6 @@ async function getGlobalCases() {
   }
 }
 
-
 const CardCases = async () => {
   const data = await getGlobalCases()
   const list_1 = [
@@ -24,7 +23,7 @@ const CardCases = async () => {
     {
       icon: "/img/redvirus.svg",
       name: "today cases",
-      data: data.todayCases 
+      data: data.todayCases
     },
     {
       icon: "/img/redvirus.svg",
@@ -56,60 +55,59 @@ const CardCases = async () => {
     },
   ]
 
-  return ( 
+  return (
     <div>
-      { data && 
-      <div>
-
-        <div className='-mx-4 flex flex-wrap'>
-          {
-            list_1.map((user, i) => (
-              <div className='w-full px-4 md:w-1/2 lg:w-1/3' key={i}>
-                <div className="bg-white p-4 flex items-center space-x-5 mb-4 md:mb-5 lg:mb-7 border border-line rounded-lg">
-                  <div className='bg-lightgray p-4 rounded-full'>
-                    <Image
-                      src={user.icon}
-                      width={26}
-                      height={25}
-                      alt="dot"
-                    />
-                  </div>
-                  <div> 
-                    <span className='capitalize text-sm font-medium text-darkgray'>{user.name ? user.name : "None"}</span>
-                    <h3 className='text-lg font-bold'>{user.data ? user.data.toLocaleString("id-ID") : "-"}</h3>
-                  </div>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-
-        <CasesChart />
-        
-        <div className='-mx-4 flex flex-wrap'>
-          {
-            list_2.map((user, i) => (
-              <div className='w-full px-4 md:w-1/2 lg:w-1/3' key={i}>
-                <div className="bg-white p-4 flex items-center space-x-5 mb-4 md:mb-5 lg:mb-7 border border-line rounded-lg">
-                  <div className='bg-lightgray p-4 rounded-full'>
-                    <Image
-                      src={user.icon}
-                      width={26}
-                      height={25}
-                      alt="dot"
-                    />
-                  </div>
-                  <div>
-                    <span className='capitalize text-sm font-medium text-darkgray'>{user.name ? user.name : "None"}</span>
-                    <h3 className='text-lg font-bold'>{user.data ? user.data.toLocaleString("id-ID") : "-"}</h3>
+      {data &&
+        <div>
+          <div className='-mx-4 flex flex-wrap'>
+            {
+              list_1.map((user, i) => (
+                <div className='w-full px-4 md:w-1/2 lg:w-1/3' key={i}>
+                  <div className="bg-white p-4 flex items-center space-x-5 mb-4 md:mb-5 lg:mb-7 border border-line rounded-lg">
+                    <div className='bg-lightgray p-4 rounded-full'>
+                      <Image
+                        src={user.icon}
+                        width={26}
+                        height={25}
+                        alt="dot"
+                      />
+                    </div>
+                    <div>
+                      <span className='capitalize text-sm font-medium text-darkgray'>{user.name ? user.name : "None"}</span>
+                      <h3 className='text-lg font-bold'>{user.data ? user.data.toLocaleString("id-ID") : "-"}</h3>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          }
-        </div>
+              ))
+            }
+          </div>
 
-      </div>
+          <CasesChart cases={[data]}/>
+
+          <div className='-mx-4 flex flex-wrap'>
+            {
+              list_2.map((user, i) => (
+                <div className='w-full px-4 md:w-1/2 lg:w-1/3' key={i}>
+                  <div className="bg-white p-4 flex items-center space-x-5 mb-4 md:mb-5 lg:mb-7 border border-line rounded-lg">
+                    <div className='bg-lightgray p-4 rounded-full'>
+                      <Image
+                        src={user.icon}
+                        width={26}
+                        height={25}
+                        alt="dot"
+                      />
+                    </div>
+                    <div>
+                      <span className='capitalize text-sm font-medium text-darkgray'>{user.name ? user.name : "None"}</span>
+                      <h3 className='text-lg font-bold'>{user.data ? user.data.toLocaleString("id-ID") : "-"}</h3>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+
+        </div>
       }
     </div>
   );
