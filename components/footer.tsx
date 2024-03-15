@@ -47,10 +47,10 @@ const Footer = () => {
           </Link>
         </div>
         <div className="bg-lightgray py-5 px-8 border border-line rounded-lg flex justify-between items-center">
-          <span className="text-gray-800 font-medium ">© 2023 Covore. All rights reserved.</span>
+          <span className="text-gray-700 font-medium ">© 2023 Covore. All rights reserved.</span>
           <div className="flex gap-5">
             {socialmedia.map((_, idx) => (
-              <Link key={idx} href={_.link} target="_blank" className="text-gray-800">
+              <Link key={idx} href={_.link} target="_blank" className="text-gray-700">
                 {_.icon}
               </Link>
             ))}

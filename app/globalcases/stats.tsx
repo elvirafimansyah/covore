@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton"
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,6 +24,10 @@ ChartJS.register(
   Legend
 );
 
+interface HistoricalData {
+  cases: { [date: string]: number };
+}
+
 export const options = {
   responsive: true,
   plugins: {
@@ -35,21 +41,31 @@ export const options = {
   },
 };
 
-async function getHistorical() {
-  try {
-    const api_url = "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
-    const req = await fetch(api_url)
-    const resp = await req.json()
-    return resp;
-  } catch (err) {
-    console.error('error')
-  }
-}
+const Stats =  () => {
+  const [historicalData, setHistoricalData] = useState<HistoricalData | null>(null);
+  useEffect(() => {
+    async function getHistorical() {
+      try {
+        const api_url = "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
+        const req = await fetch(api_url);
+        const resp = await req.json();
+        setHistoricalData(resp);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    }
+    getHistorical();
+  }, []); 
 
-const Stats = async () => {
-  const all_cases = await getHistorical()
-  const cases = all_cases.cases;
-  const labels = Object.keys(cases); 
+  if (!historicalData) {
+    return <div className="flex flex-col space-y-3">
+      <Skeleton className="h-[300px] w-full rounded-xl" />
+      <div className="space-y-2 flex justify-center text-center items-center">
+        <Skeleton className="h-4 w-[250px] " />
+      </div>
+    </div>;
+  }
+  const labels = Object.keys(historicalData.cases);
   return (
     <>
       <Line options={options} data={
@@ -58,7 +74,7 @@ const Stats = async () => {
           datasets: [
             {
               label: "Cases",
-              data: cases,
+              data: Object.values(historicalData.cases),
               borderColor: '#000',
               backgroundColor: '#FACC15',
             },
