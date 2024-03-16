@@ -32,8 +32,10 @@ const Dashboard = () => {
   const [filterCountries, setFilterCountries] = useState<CountryData[]>([])
   const [recentCountries, setRecentCountries] = useState<CountryData[]>([])
   const [value, setValue] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(true)
   const [curPage, setCurPage] = useState<number>(1)
   const filterRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     async function getAllCountries() {
       try {
@@ -41,6 +43,7 @@ const Dashboard = () => {
         const req = await fetch(api_url);
         const resp = await req.json();
         setCountries(resp);
+        setLoading(false)
       } catch (err) {
         console.error('Error fetching data:', err);
       }
@@ -87,6 +90,12 @@ const Dashboard = () => {
     }
   }
 
+  if (!countries) return <div className="flex flex-col space-y-3">
+    <Skeleton className="h-[300px] w-full rounded-xl" />
+    <div className="space-y-2 flex justify-center text-center items-center">
+      <Skeleton className="h-4 w-[250px] " />
+    </div>
+  </div>
 
   return (
     <div className="bg-lightgray py-8 md:py-12 lg:py-16 ">
@@ -107,8 +116,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-    
-          <Table>
+
+          {/* <Table>
             <TableHeader className="bg-lightgray border-t border-b border-b-line border-t-line">
               <TableRow >
                 <TableHead>Country</TableHead>
@@ -139,13 +148,73 @@ const Dashboard = () => {
                 </TableRow>
               ))}
             </TableBody>
-          </Table>
+          </Table>  */}
+          {loading ? <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[300px] w-full rounded-xl" />
+            <div className="space-y-2 flex justify-center text-center items-center">
+              <Skeleton className="h-4 w-[250px] " />
+            </div>
+          </div> : !filterCountries.length ? <div>not found</div> :
+            <div className="relative w-full overflow-auto">
+              <table className="w-full text-sm text-left rtl:text-right font-normal  ">
+                <thead className="bg-lightgray border-t border-b border-b-line border-t-line [&_tr]:border-b text-xs md:text-sm ">
+                  <tr className="border-b transition-colors hover:bg-lightgray data-[state=selected]:bg-muted">
+                    <th scope="col" className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                      Country
+                    </th>
+                    <th scope="col" className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                      Total Cases
+                    </th>
+                    <th scope="col" className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                      Today Cases
+                    </th>
+                    <th scope="col" className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                      Recovered
+                    </th>
+                    <th scope="col" className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                      Total Deaths
+                    </th>
+                    <th scope="col" className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                      Today Deaths
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="[&_tr:last-child]:border-0">
+                  {!filterCountries.length ? <div>notfound</div> : filterCountries.map((user, idx) => (
+                    <tr className="border-b transition-colors hover:bg-lightgray data-[state=selected]:bg-muted" key={idx}>
+                      <th scope="row" className="p-4 align-middle [&:has([role=checkbox])]:pr-0 flex items-center space-x-2">
+                        <img src={user.countryInfo.flag} width={22} alt="none" />
+                        <span className="font-semibold">{user.country}</span>
+                      </th>
+                      <th scope="row" className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-semibold">
+                        {user.cases ? user.cases.toLocaleString("id-ID") : "-"}
+                      </th>
+                      <th scope="row" className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-semibold">
+                        {user.todayCases ? user.todayCases.toLocaleString("id-ID") : "-"}
+                      </th>
+                      <th scope="row" className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-semibold">
+                        {user.recovered ? user.recovered.toLocaleString("id-ID") : "-"}
+                      </th>
+                      <th scope="row" className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-semibold">
+                        {user.deaths ? user.deaths.toLocaleString("id-ID") : "-"}
+                      </th>
+                      <th scope="row" className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-semibold">
+                        {user.todayDeaths ? user.todayDeaths.toLocaleString("id-ID") : "-"}
+                      </th>
+                    </tr>
+                  ))}
 
-          <Pagination 
-            handleChangePage={handleChangePage} 
-            handleNextPage={handleNextPage} 
-            handlePrevPage={handlePrevPage} 
-            curPage={curPage} 
+                </tbody>
+              </table>
+            </div>
+          }
+
+
+          <Pagination
+            handleChangePage={handleChangePage}
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            curPage={curPage}
             pageNumbers={pageNumbers} />
         </div>
       </Container>
