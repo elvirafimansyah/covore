@@ -31,7 +31,7 @@ const Footer = () => {
     <Container>
       <div className="bg-white py-8">
         <div className="flex items-center space-x-6 justify-center mb-6">
-          <Link href="https://github.com/elvirafimansyah" target="_blank">
+          <Link href="https://github.com/elvirafimansyah/covore" target="_blank">
             <div className="flex items-center space-x-2 ">
               <FaGithub size="24"/>
               <span className="capitalize font-medium">source code</span>
