@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction } from "react";
 import { Skeleton } from "@/components/ui/skeleton"
 
 import {
@@ -26,8 +26,6 @@ ChartJS.register(
 
 interface countryVaccine {
   value: string;
-  submit: boolean;
-  setSubmit: void;
 }
 interface countryFlag {
   countryInfo: {
@@ -53,7 +51,7 @@ export const options = {
   },
 };
 
-const CountryVaccineStats: React.FC<countryVaccine> = ({ value, submit }) => {
+const CountryVaccineStats: React.FC<countryVaccine> = ({ value }) => {
   const [countryVaccineData, setCountryVaccineData] = useState<CountryVaccineData | null>(null);
   const [countryFlag, setCountryFlag] = useState<countryFlag | null>(null)
 
@@ -78,11 +76,9 @@ const CountryVaccineStats: React.FC<countryVaccine> = ({ value, submit }) => {
         console.error('Error fetching data:', err);
       }
     }
-    if(submit) {
-      getCountryVaccine();
-      getCountryFlag();
-    }
-  })
+    getCountryVaccine();
+    getCountryFlag();
+  }, [value])
 
 
   if (!countryVaccineData) {
@@ -96,29 +92,26 @@ const CountryVaccineStats: React.FC<countryVaccine> = ({ value, submit }) => {
   const labels = Object.keys(countryVaccineData.timeline);
   return (
     <>
-      {
-        submit ?
-          <>
-            <div className="flex space-x-2">
-              <img src={countryFlag?.countryInfo.flag ? countryFlag?.countryInfo.flag : "-"} width={22} alt="none" />
-              <span className="font-semibold">{countryVaccineData.country ? countryVaccineData.country : "-"}</span>
-            </div>
-            <Line options={options} data={
-              {
-                labels,
-                datasets: [
-                  {
-                    label: "Cases",
-                    data: Object.values(countryVaccineData.timeline),
-                    borderColor: '#000',
-                    backgroundColor: '#FACC15',
-                  },
-                ],
-              }
-            }
-            />
-          </> : null
+
+      <div className="flex space-x-2">
+        <img src={countryFlag?.countryInfo.flag ? countryFlag?.countryInfo.flag : "-"} width={22} alt="none" />
+        <span className="font-semibold">{countryVaccineData.country ? countryVaccineData.country : "-"}</span>
+      </div>
+      <Line options={options} data={
+        {
+          labels,
+          datasets: [
+            {
+              label: "Cases",
+              data: Object.values(countryVaccineData.timeline),
+              borderColor: '#000',
+              backgroundColor: '#FACC15',
+            },
+          ],
+        }
       }
+      />
+
     </>
 
   );
