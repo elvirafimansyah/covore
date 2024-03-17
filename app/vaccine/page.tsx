@@ -44,12 +44,12 @@ const Vaccine = () => {
   }, []);
 
   useEffect(() => {
-    if (data) {
+    if (data ) {
       const date = Object.keys(data)
       const vaccine = Object.values(data)
       setLastData({ date: date.slice(-1).toString(), vaccine: vaccine.slice(-1).toString() })
     }
-  }, [data, lastData])
+  }, [data])
 
   return (
     <div className="bg-lightgray py-6 md:py-10 lg:py-12 ">
