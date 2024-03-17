@@ -97,7 +97,7 @@ const Vaccine = () => {
                 </div>
                 <input type="search" className="block w-full px-4 py-3 ps-10 text-sm text-gray-800 border border-line rounded-lg bg-lightgray focus:border-gold focus:outline-none" placeholder="Search country...."  required value={inputValue} onChange={e => setInputValue(e.target.value)}/>
               </div>
-              <button type='submit'></button>
+              <button type='submit' className="hidden"></button>
             </form>
           </div>
 

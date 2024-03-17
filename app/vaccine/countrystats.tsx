@@ -30,7 +30,7 @@ interface countryVaccine {
 }
 interface countryFlag {
   countryInfo: {
-    flag: string
+    flag: string;
   }
 }
 
@@ -63,7 +63,6 @@ const CountryVaccineStats: React.FC<countryVaccine> = ({ value }) => {
         const req = await fetch(api_url);
         const resp = await req.json();
         setCountryVaccineData(resp);
-        console.log(countryVaccineData)
       } catch (err) {
         setNotFound(true);
         console.error('Error fetching data:', err);
@@ -75,19 +74,22 @@ const CountryVaccineStats: React.FC<countryVaccine> = ({ value }) => {
         const req = await fetch(api_url);
         const resp = await req.json();
         setCountryFlag(resp);
+
       } catch (err) {
         setNotFound(true);
         console.error('Error fetching data:', err);
       }
     }
-    
+
+
     getCountryVaccine();
     getCountryFlag();
+
   }, [value, countryVaccineData])
-  
-  
- 
-  if (!countryVaccineData) {
+
+
+
+  if (!countryVaccineData || !countryFlag) {
     return <div className="flex flex-col space-y-3">
       <Skeleton className="h-[300px] w-full rounded-xl" />
       <div className="space-y-2 flex justify-center text-center items-center">
@@ -96,34 +98,44 @@ const CountryVaccineStats: React.FC<countryVaccine> = ({ value }) => {
     </div>;
   }
 
-  const labels = countryVaccineData.timeline ?  Object.keys(countryVaccineData.timeline) : []
-  
+  const labels = countryVaccineData.timeline ? Object.keys(countryVaccineData.timeline) : []
+
   return (
     <>
-      {countryVaccineData.timeline ?  <>
-        <div className="flex space-x-2 items-center">
-          <img src={countryFlag?.countryInfo.flag ? countryFlag?.countryInfo.flag : "-"} width={22} alt="none" />
-          <span className="font-semibold">{countryVaccineData.country ? countryVaccineData.country : "-"}</span>
-        </div>
-        <Line options={options} data={
-          {
-            labels,
-            datasets: [
+      {countryVaccineData && countryVaccineData.timeline && countryFlag && !notFound ?
+        <>
+          <div className="flex space-x-2 items-center mb-2">
+            {countryFlag?.countryInfo?.flag ? (
+              <img src={countryFlag.countryInfo.flag} width={22} alt="Flag" />
+            ) : (
+              <span>No Flag Available</span>
+            )}
+
+            <span className="font-semibold">{countryVaccineData.country ? countryVaccineData.country : "-"} </span>
+          </div>
+          <Line
+            options={options}
+            data={
               {
-                label: "Cases",
-                data: countryVaccineData.timeline ? Object.values(countryVaccineData.timeline) : [],
-                borderColor: '#000',
-                backgroundColor: '#FACC15',
-              },
-            ],
-          }
-        }
+                labels,
+                datasets: [
+                  {
+                    label: "Recent Vaccine Coverage",
+                    data: countryVaccineData.timeline ? Object.values(countryVaccineData.timeline) : [],
+                    borderColor: '#000',
+                    backgroundColor: '#FACC15',
+                  },
+                ],
+              }
+            }
+          />
+        </> :
+        <NotFound
+          title="No Results Found"
+          description="No results match the filter criteria. Remove filter or clear all filters to show results"
         />
-
-      </> : <NotFound title="No Results Found" description="No results match the filter criteria. Remove filter or clear all filters to show results"/>}
-     
+      }
     </>
-
   );
 }
 export default CountryVaccineStats;
