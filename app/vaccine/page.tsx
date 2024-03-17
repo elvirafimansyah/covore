@@ -55,7 +55,7 @@ const Vaccine = () => {
     <div className="bg-lightgray py-6 md:py-10 lg:py-12 ">
       <Container>
         <h1 className="text-2xl font-bold mb-4">Vaccine</h1>
-        <div className="bg-white p-4 md:mb-5 lg:mb-7 border border-line rounded-lg w-full">
+        <div className="bg-white p-4 mb-5 lg:mb-7 border border-line rounded-lg w-full">
           <div className='flex items-center space-x-5 mb-4' >
             <div className='bg-lightgray p-4 rounded-full'>
               <Image
