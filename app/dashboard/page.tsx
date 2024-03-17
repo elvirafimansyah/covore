@@ -90,7 +90,7 @@ const Dashboard = () => {
   </div>
 
   return (
-    <div className="bg-lightgray py-8 md:py-12 lg:py-16 ">
+    <div className="bg-lightgray py-6 md:py-10 lg:py-12 ">
       <Container>
         <div className="bg-white border border-line rounded-lg ">
           <div className="p-5 flex flex-col md:flex-row md:justify-between space-y-2 md:space-y-0">
@@ -111,17 +111,18 @@ const Dashboard = () => {
 
           {loading ? 
           <div className="flex flex-col space-y-3">
-            <Skeleton className="h-[300px] w-full rounded-xl" />
-            <div className="space-y-2 flex justify-center text-center items-center">
-              <Skeleton className="h-4 w-[250px] " />
+            <Skeleton className="h-[400px] w-full" />
+            <div className="space-x-2 flex justify-center text-center items-center pb-3 ">
+              <Skeleton className="w-[40px] h-[40px] " />
+              <Skeleton className="w-[40px] h-[40px] " />
+              <Skeleton className="w-[40px] h-[40px] " />
+              <Skeleton className="w-[40px] h-[40px]" />
             </div>
           </div> 
           : !filterCountries.length ? 
             <NotFound
               title="No Results Found"
               description="No results match the filter criteria. Remove filter or clear all filters to show results."
-              size="2xl"
-              size_md="3xl"
             /> :
             <div className="relative w-full overflow-auto">
               <table className="w-full text-sm text-left rtl:text-right font-normal  ">

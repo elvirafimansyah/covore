@@ -2,10 +2,8 @@ import { FiSearch } from "react-icons/fi";
 interface NotFoundProps {
   title?: string;
   description?: string;
-  size: string;
-  size_md?: string; 
 }
-const NotFound: React.FC<NotFoundProps> = ({ title, description, size, size_md }) => {
+const NotFound: React.FC<NotFoundProps> = ({ title, description}) => {
   return (
     <div className="flex flex-col items-center justify-center space-y-3 my-3 p-5">
       <FiSearch size="40px" style={{color: "#FACC15"}} />
