@@ -65,6 +65,7 @@ const Stats =  () => {
       </div>
     </div>;
   }
+  
   const labels = Object.keys(historicalData.cases);
   return (
     <>

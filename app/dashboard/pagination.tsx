@@ -1,10 +1,10 @@
 import React from "react"
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 interface PaginationProps {
-  handleChangePage: (number: number) => void,
-  handleNextPage: () => void,
-  handlePrevPage: () => void,
-  curPage: number,
+  handleChangePage: (number: number) => void;
+  handleNextPage: () => void;
+  handlePrevPage: () => void;
+  curPage: number;
   pageNumbers: number[]
 }
 const Pagination: React.FC<PaginationProps> = ({ handleChangePage, handleNextPage, handlePrevPage, curPage, pageNumbers})  => {

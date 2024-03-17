@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import Container from "@/components/container";
-import { redirect } from 'next/navigation'
 
 const HomePage = () => {
   return (

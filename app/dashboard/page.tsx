@@ -8,15 +8,15 @@ import { FiSearch } from "react-icons/fi";
 import { Skeleton } from "@/components/ui/skeleton"
 
 interface CountryData {
-  country: string,
+  country: string;
   countryInfo: {
     flag: string
-  },
-  cases: number,
-  todayCases: number,
-  deaths: number,
-  todayDeaths: number,
-  recovered: number,
+  };
+  cases: number;
+  todayCases: number;
+  deaths: number;
+  todayDeaths: number;
+  recovered: number;
 }
 
 const Dashboard = () => {

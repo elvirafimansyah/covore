@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Stats from "./stats";
 
 interface Case {
-  cases?: number,
-  deaths?: number,
+  cases?: number;
+  deaths?: number;
 }
 
 interface CasesProps {
