@@ -24,8 +24,12 @@ ChartJS.register(
   Legend
 );
 
-interface VaccineData {
-  cases: { [date: string]: number };
+interface Data {
+  [date: string]: number;
+}
+
+interface dataProps {
+  data: { data: Data }[];
 }
 
 export const options = {
@@ -41,23 +45,8 @@ export const options = {
   },
 };
 
-const GlobalVaccineStats =  () => {
-  const [vaccineData, setVaccineData] = useState<VaccineData | null>(null);
-  useEffect(() => {
-    async function getHistorical() {
-      try {
-        const api_url = "https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=all&fullData=false"
-        const req = await fetch(api_url);
-        const resp = await req.json();
-        setVaccineData(resp);
-      } catch (err) {
-        console.error('Error fetching data:', err);
-      }
-    }
-    getHistorical();
-  }, []); 
-
-  if (!vaccineData) {
+const GlobalVaccineStats: React.FC<dataProps> = ({ data }) => {
+  if (!data || !data.length || !data[0]?.data) {
     return <div className="flex flex-col space-y-3">
       <Skeleton className="h-[300px] w-full rounded-xl" />
       <div className="space-y-2 flex justify-center text-center items-center">
@@ -65,7 +54,10 @@ const GlobalVaccineStats =  () => {
       </div>
     </div>;
   }
+  
+  const vaccineData = data[0].data;
   const labels = Object.keys(vaccineData);
+
   return (
     <>
       <Line options={options} data={

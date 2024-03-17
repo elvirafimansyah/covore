@@ -1,8 +1,44 @@
 "use client"
+import React, { useState, useEffect } from "react";
 import Container from "@/components/container";
 import Image from "next/image";
 import GlobalVaccineStats from "./globalstats";
+
+interface Data {
+ [date: string]: number 
+}
+
+interface lastDataObj {
+  date: string,
+  vaccine: string,
+}
+
 const Vaccine = () => {
+  const [data, setData] = useState<Data | null>(null);
+  const [lastData, setLastData] = useState<lastDataObj>({date: "", vaccine: ""})
+  useEffect(() => {
+    async function getVaccine() {
+      try {
+        const api_url = "https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=all&fullData=false"
+        const req = await fetch(api_url);
+        const resp = await req.json();
+        setData(resp);
+        
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    }
+    getVaccine();
+  }, []);
+
+  useEffect(() => {
+    if(data) {
+      const date = Object.keys(data)
+      const vaccine = Object.values(data)
+      setLastData({date: date.slice(-1).toString(), vaccine: vaccine.slice(-1).toString()})
+    }
+  }, [data, lastData])
+
   return (
     <div className="bg-lightgray py-6 md:py-10 lg:py-12 ">
       <Container>
@@ -19,13 +55,12 @@ const Vaccine = () => {
               />
             </div>
             <div>
-              <span className='capitalize text-sm font-medium text-darkgray'>Global Vaccine Coverage</span>
-              <h3 className='text-lg font-bold'></h3>
+              <span className='capitalize text-sm font-medium text-darkgray'>Global Vaccine Coverage - {lastData.date ? lastData.date : "-"}</span>
+              <h3 className='text-lg font-bold'>{lastData.vaccine ? Number(lastData.vaccine).toLocaleString("id-ID") : "-"}</h3>
             </div>
           </div>
 
-          <h2 className="text-lg font-semibold ">Total</h2>
-          <GlobalVaccineStats />
+          <GlobalVaccineStats data={data ? [{ data: data }] : []}/>
         </div>
       </Container>
     </div>

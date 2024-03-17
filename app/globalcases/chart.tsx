@@ -9,7 +9,7 @@ interface Case {
 }
 
 interface CasesProps {
-  cases?: Case[];
+  cases?: Case[]
 }
 
 const CasesChart: React.FC<CasesProps> = ({ cases }) => {
