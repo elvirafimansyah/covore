@@ -3,16 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Container from "@/components/container";
 import Pagination from "./pagination";
+import NotFound from "@/components/notfound";
 import { FiSearch } from "react-icons/fi";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
 
 interface CountryData {
@@ -117,44 +109,20 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* <Table>
-            <TableHeader className="bg-lightgray border-t border-b border-b-line border-t-line">
-              <TableRow >
-                <TableHead>Country</TableHead>
-                <TableHead>Total Cases</TableHead>
-                <TableHead>Today Cases</TableHead>
-                <TableHead >Recovered</TableHead>
-                <TableHead >Total Deaths</TableHead>
-                <TableHead >Today Deaths</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {!filterCountries.length ? <div className="flex flex-col space-y-3">
-                <Skeleton className="h-[300px] w-full rounded-xl" />
-                <div className="space-y-2 flex justify-center text-center items-center">
-                  <Skeleton className="h-4 w-[250px] " />
-                </div>
-              </div> : filterCountries.map((user, idx) => (
-                <TableRow key={idx}>
-                  <TableCell className="flex items-center space-x-2">
-                    <img src={user.countryInfo.flag} width={22} alt="none" />
-                    <span className="font-semibold">{user.country}</span>
-                  </TableCell>
-                  <TableCell className="font-semibold">{user.cases ? user.cases.toLocaleString("id-ID") : "-"}</TableCell>
-                  <TableCell className="font-semibold">{user.todayCases ? user.todayCases.toLocaleString("id-ID") : "-"}</TableCell>
-                  <TableCell className="font-semibold">{user.recovered ? user.recovered.toLocaleString("id-ID") : "-"}</TableCell>
-                  <TableCell className="font-semibold">{user.deaths ? user.deaths.toLocaleString("id-ID") : "-"}</TableCell>
-                  <TableCell className="font-semibold">{user.todayDeaths ? user.todayDeaths.toLocaleString("id-ID") : "-"}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>  */}
-          {loading ? <div className="flex flex-col space-y-3">
+          {loading ? 
+          <div className="flex flex-col space-y-3">
             <Skeleton className="h-[300px] w-full rounded-xl" />
             <div className="space-y-2 flex justify-center text-center items-center">
               <Skeleton className="h-4 w-[250px] " />
             </div>
-          </div> : !filterCountries.length ? <div>not found</div> :
+          </div> 
+          : !filterCountries.length ? 
+            <NotFound
+              title="No Results Found"
+              description="No results match the filter criteria. Remove filter or clear all filters to show results."
+              size="2xl"
+              size_md="3xl"
+            /> :
             <div className="relative w-full overflow-auto">
               <table className="w-full text-sm text-left rtl:text-right font-normal  ">
                 <thead className="bg-lightgray border-t border-b border-b-line border-t-line [&_tr]:border-b text-xs md:text-sm ">
@@ -206,16 +174,15 @@ const Dashboard = () => {
 
                 </tbody>
               </table>
+              <Pagination
+                handleChangePage={handleChangePage}
+                handleNextPage={handleNextPage}
+                handlePrevPage={handlePrevPage}
+                curPage={curPage}
+                pageNumbers={pageNumbers} />
             </div>
           }
 
-
-          <Pagination
-            handleChangePage={handleChangePage}
-            handleNextPage={handleNextPage}
-            handlePrevPage={handlePrevPage}
-            curPage={curPage}
-            pageNumbers={pageNumbers} />
         </div>
       </Container>
     </div>
